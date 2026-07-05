@@ -76,7 +76,7 @@ end
 
 local zones = {"Junkyard", "LowTiers", "Auction", "Suburbs3", "Port"}
 for i, zone in ipairs(zones) do
-	createButton(ScrollFrame, i..". Buy "..zone.." (1-20)", UDim2.new(0.05, 0, 0, 10 + (i-1)*45), UDim2.new(0.9, 0, 0, 35), Color3.fromRGB(20, 20, 20)).MouseButton1Click:Connect(function() 
+	createButton(ScrollFrame, i..". Buy "..zone, UDim2.new(0.05, 0, 0, 10 + (i-1)*45), UDim2.new(0.9, 0, 0, 35), Color3.fromRGB(20, 20, 20)).MouseButton1Click:Connect(function() 
 		buyZoneRange(zone) 
 	end)
 end
