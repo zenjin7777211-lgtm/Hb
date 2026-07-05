@@ -1,71 +1,110 @@
---[[
- .____                  ________ ___.    _____                           __                
- |    |    __ _______   \_____  \\_ |___/ ____\_ __  ______ ____ _____ _/  |_  ___________ 
- |    |   |  |  \__  \   /   |   \| __ \   __\  |  \/  ___// ___\\__  \\   __\/  _ \_  __ \
- |    |___|  |  // __ \_/    |    \ \_\ \  | |  |  /\___ \\  \___ / __ \|  | (  <_> )  | \/
- |_______ \____/(____  /\_______  /___  /__| |____//____  >\___  >____  /__|  \____/|__|   
-         \/          \/         \/    \/                \/     \/     \/                   
-          \_Welcome to LuaObfuscator.com   (Alpha 0.10.9) ~  Much Love, Ferib 
+if not game:IsLoaded() then game.Loaded:Wait() end
 
-]]--
+local Player = game:GetService("Players").LocalPlayer
+local PlayerGui = Player:WaitForChild("PlayerGui", 10)
+local RS = game:GetService("ReplicatedStorage")
+local UIS = game:GetService("UserInputService")
 
--- Example Code:
-local a = ((16164 + (((3864 + 364101) - 274396) - 67600)) + (190952 - 110638))
-a = a + ((113 - (26 + 67)) + (1219 - (119 + 997))) -- Example obfuscation
-
--- To hide your precious values, try obfuscating them!
--- Click the [Literals] button in the upper-right corner
-local b = 1203456
-local c = 1230471
-local d = 8023481
-
--- The below if-statement is opque and can be predicted as
--- all conditions are staticly defined
-if c > b then
-    print("true")
+if PlayerGui:FindFirstChild("CarFlipperUltimateFixedHub") then
+	PlayerGui.CarFlipperUltimateFixedHub:Destroy()
 end
 
--- You may want to obfuscate such if-statements by using
--- the [Junk-If] button in the upper right corner
-if 1 + d > c then
-    print("obfuscate the conditions!")
+local ScreenGui = Instance.new("ScreenGui", PlayerGui)
+ScreenGui.Name = "CarFlipperUltimateFixedHub"
+ScreenGui.ResetOnSpawn = false
+
+local Main = Instance.new("Frame", ScreenGui)
+Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Main.BorderSizePixel = 2
+Main.Position = UDim2.new(0.2, 0, 0.2, 0)
+Main.Size = UDim2.new(0, 250, 0, 240)
+Main.Active, Main.Draggable = true, true
+
+local Title = Instance.new("TextLabel", Main)
+Title.Size = UDim2.new(1, 0, 0, 35)
+Title.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.SourceSansBold
+Title.Text = "CAR FLIPPER PRO HUB"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 12
+
+local function createButton(parent, text, pos, size, bg)
+	local btn = Instance.new("TextButton", parent)
+	btn.Size = size
+	btn.Position = pos
+	btn.BackgroundColor3 = bg or Color3.fromRGB(0, 0, 0)
+	btn.BorderColor3 = Color3.fromRGB(255, 255, 255)
+	btn.Font = Enum.Font.Code
+	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	btn.Text = text
+	btn.TextSize = 11
+	return btn
 end
 
--- Next is [Strings], which will encrypt all strings but adds
--- extra code to decrypt them at runtime.
-print("Clicking [Strings] will completely hide this string!")
+createButton(ScreenGui, "ON / OFF", UDim2.new(0, 10, 0, 10), UDim2.new(0, 80, 0, 30)).MouseButton1Click:Connect(function() 
+	Main.Visible = not Main.Visible 
+end)
 
--- Another important thing is to hide the order of things that get executed
--- to confuse an attacker using Control Flow Flattening. With [CFF v1] we can hide
--- the control flow of the following blocks.
-do
-   function sieve_of_eratosthenes(n)
-   local is_prime = { }
-       for i = 1, n do
-           is_prime[i] = 1 ~= i
-       end
-       for i = 2, math.floor(math.sqrt(n)) do
-           if is_prime[i] then
-               for j = i* i, n, i do
-                   is_prime[j] = false
-               end
-           end
-       end
-       return is_prime
-   end
-   local primes = sieve_of_eratosthenes(420)
-   for key, value in pairs(primes) do
-       if (value) then
-           print("Prime found: " .. key)
-       end
-   end
+local BuyCarToggleBtn = createButton(Main, "[ BUY CAR 🔻 ]", UDim2.new(0.05, 0, 0, 50), UDim2.new(0.9, 0, 0, 35))
+local FixAllBtn       = createButton(Main, "[ REPAIR ALL CARS ]", UDim2.new(0.05, 0, 0, 100), UDim2.new(0.9, 0, 0, 35))
+local RollBtn         = createButton(Main, "[ ROLL CARD ]", UDim2.new(0.05, 0, 0, 150), UDim2.new(0.9, 0, 0, 35))
+
+local FixCarEvent   = RS:WaitForChild("Remotes"):WaitForChild("Repair"):WaitForChild("FixCar")
+local BuyCarEvent   = RS:WaitForChild("Remotes"):WaitForChild("Merchant"):WaitForChild("BuyCar")
+local RollCarEvent  = RS:WaitForChild("Remotes"):WaitForChild("Junkyard"):WaitForChild("Roll")
+
+local ScrollFrame = Instance.new("ScrollingFrame", ScreenGui)
+ScrollFrame.Size = UDim2.new(0, 220, 0, 150)
+ScrollFrame.Position = UDim2.new(0.2, 255, 0.2, 0)
+ScrollFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+ScrollFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
+ScrollFrame.BorderSizePixel = 2
+ScrollFrame.ScrollBarThickness = 6
+ScrollFrame.CanvasSize = UDim2.new(0, 0, 0, 240)
+ScrollFrame.Visible = false
+
+local function buyZoneRange(zoneName)
+	if BuyCarEvent then
+		for i = 1, 20 do
+			BuyCarEvent:FireServer(zoneName, tostring(i))
+			task.wait(0.02)
+		end
+	end
 end
 
--- You might be satisfied with your result, but before sharing your work you should
--- use [Minify] (under Miscellaneous) to destroy all local variables and comments.
--- Please note that some pre-configured obfuscate buttons already do this for you ;)
-print("How to obfuscate best?")
+local zones = {"Junkyard", "LowTiers", "Auction", "Suburbs3", "Port"}
+for i, zone in ipairs(zones) do
+	createButton(ScrollFrame, i..". Buy "..zone.." (1-20)", UDim2.new(0.05, 0, 0, 10 + (i-1)*45), UDim2.new(0.9, 0, 0, 35), Color3.fromRGB(20, 20, 20)).MouseButton1Click:Connect(function() 
+		buyZoneRange(zone) 
+	end)
+end
 
--- The highest level of obfuscation is done through virtualization,
--- in our case this means we will be running Lua inside Lua using the
--- Ironbrew2 virtulization tool. Ready? click [Demo VM] and see what happens!
+BuyCarToggleBtn.MouseButton1Click:Connect(function() ScrollFrame.Visible = not ScrollFrame.Visible end)
+Main:GetPropertyChangedSignal("Visible"):Connect(function() if not Main.Visible then ScrollFrame.Visible = false end end)
+
+FixAllBtn.MouseButton1Click:Connect(function()
+	if FixCarEvent then
+		for id = 1, 40 do
+			for i = 1, 15 do FixCarEvent:FireServer(tostring(id)) end
+			task.wait(0.02)
+		end
+	end
+end)
+
+RollBtn.MouseButton1Click:Connect(function()
+	if RollCarEvent then
+		for i = 1, 20 do
+			RollCarEvent:FireServer(tostring(i))
+			task.wait(0.02)
+		end
+	end
+end)
+
+UIS.InputBegan:Connect(function(input, gameProcessed)
+	if not gameProcessed and input.KeyCode == Enum.KeyCode.LeftControl then
+		Main.Visible = not Main.Visible
+		if not Main.Visible then ScrollFrame.Visible = false end
+	end
+end)
